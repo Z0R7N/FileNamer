@@ -9,14 +9,24 @@ class RenameApp:
         self.root.geometry("350x150")
         self.root.resizable(False, False)
         
-        # Загрузка иконки
-        self.root.iconbitmap('rnm.ico')
+        # Получаем путь к иконке
+        icon_path = self.resource_path('rnm.ico')
+        self.root.iconbitmap(icon_path)
 
-        self.default_folder = "D:/"
+        self.default_folder = "D:\cnc-prg\!потенциометр\документы"
         self.selected_file = None
 
         # Создаем элементы интерфейса
         self.create_widgets()
+    
+    def resource_path(self, relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+        return os.path.join(base_path, relative_path)
 
     def create_widgets(self):
         self.frame1 = tk.Frame(self.root)
