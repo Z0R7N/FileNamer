@@ -6,7 +6,11 @@ class RenameApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Переименование файлов")
-        self.root.geometry("400x200")
+        self.root.geometry("350x150")
+        self.root.resizable(False, False)
+        
+        # Загрузка иконки
+        self.root.iconbitmap('rnm.ico')
 
         self.default_folder = "D:/"
         self.selected_file = None
@@ -30,6 +34,7 @@ class RenameApp:
 
         self.entry2 = tk.Entry(self.frame2, width=30)
         self.entry2.pack(side=tk.LEFT, padx=5)
+        self.entry2.bind('<Return>', self.trigger_start_renaming)
 
         self.btn_start = tk.Button(self.frame2, text="Пуск", command=self.start_renaming, state=tk.DISABLED)
         self.btn_start.pack(side=tk.LEFT, padx=5)
@@ -40,6 +45,10 @@ class RenameApp:
             self.entry1.delete(0, tk.END)
             self.entry1.insert(0, self.selected_file)
             self.btn_start.config(state=tk.NORMAL)
+            self.entry2.focus_set()  # Устанавливаем фокус на поле ввода числа
+
+    def trigger_start_renaming(self, event):
+        self.start_renaming()
 
     def start_renaming(self):
         start_number = self.entry2.get()
@@ -51,7 +60,7 @@ class RenameApp:
         folder = os.path.dirname(self.selected_file)
         files = [f for f in os.listdir(folder) if os.path.isfile(os.path.join(folder, f))]
         
-        # Отфильтровываем файлы, которые начинаются с цифры
+        # Отфильтровываем файлы, которые начинаются не с цифры
         files_to_rename = [f for f in files if not f[0].isdigit()][:10]
 
         for i, file in enumerate(files_to_rename):
