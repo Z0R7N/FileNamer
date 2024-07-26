@@ -1,4 +1,5 @@
 import os
+import sys
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
@@ -13,7 +14,7 @@ class RenameApp:
         icon_path = self.resource_path('rnm.ico')
         self.root.iconbitmap(icon_path)
 
-        self.default_folder = "D:\cnc-prg\!потенциометр\документы"
+        self.default_folder = "D:\\cnc-prg\\!потенциометр\\документы"
         self.selected_file = None
 
         # Создаем элементы интерфейса
@@ -50,7 +51,8 @@ class RenameApp:
         self.btn_start.pack(side=tk.LEFT, padx=5)
 
     def choose_file(self):
-        self.selected_file = filedialog.askopenfilename(initialdir=self.default_folder)
+        initial_dir = self.default_folder if not self.selected_file else os.path.dirname(self.selected_file)
+        self.selected_file = filedialog.askopenfilename(initialdir=initial_dir)
         if self.selected_file:
             self.entry1.delete(0, tk.END)
             self.entry1.insert(0, self.selected_file)
